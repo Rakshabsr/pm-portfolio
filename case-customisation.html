@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Customisation Automation Engine — Sri Raksha BSR</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0c;--surface:#111114;--card:#16161a;--card-hover:#1a1a1f;
+  --border:#222228;--border-hover:#333340;
+  --text-1:#f0f0f2;--text-2:#d4d4d8;--text-3:#9e9ea8;--text-4:#6e6e7a;--text-5:#44444f;
+  --accent:#8b5cf6;--accent-soft:#a78bfa;--accent-deep:#7c3aed;--accent-glow:rgba(139,92,246,0.06);
+  --heading:'Space Grotesk',system-ui,sans-serif;
+  --body:'DM Sans',system-ui,sans-serif;
+  --ease:cubic-bezier(0.22,0.61,0.36,1);
+  --max:760px;
+}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{font-family:var(--body);background:var(--bg);color:var(--text-3);line-height:1.7;-webkit-font-smoothing:antialiased;font-size:15px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+::selection{background:var(--accent);color:white}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;opacity:0.025;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");z-index:9999}
+.reveal{opacity:0;transform:translateY(14px);transition:opacity 0.5s var(--ease),transform 0.5s var(--ease)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,12,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:900px;margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:var(--heading);font-weight:600;font-size:15px;color:var(--text-1);letter-spacing:-0.5px;text-decoration:none}
+.nav-logo span{color:var(--accent)}
+.nav-back{font-size:13px;color:var(--text-4);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color 0.2s}
+.nav-back:hover{color:var(--text-2);text-decoration:none}
+.case-hero{max-width:var(--max);margin:0 auto;padding:7rem 2rem 3rem}
+.case-tag{font-family:var(--heading);font-size:11px;text-transform:uppercase;letter-spacing:2.5px;color:var(--accent);font-weight:600;margin-bottom:10px}
+.case-hero h1{font-family:var(--heading);font-size:clamp(28px,4vw,38px);font-weight:700;color:var(--text-1);line-height:1.12;letter-spacing:-1px;margin-bottom:14px}
+.case-hero .subtitle{font-size:16px;color:var(--text-4);line-height:1.65;margin-bottom:2rem}
+.meta-bar{display:flex;gap:2rem;flex-wrap:wrap;padding:1.25rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:3rem}
+.meta-item{}
+.meta-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text-5);font-weight:600;margin-bottom:2px}
+.meta-val{font-size:13.5px;color:var(--text-2);font-weight:500}
+.stats-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:12px;overflow:hidden;border:1px solid var(--border);margin-bottom:3rem}
+.ss-item{background:var(--card);padding:1.25rem 1rem;text-align:center}
+.ss-val{font-family:var(--heading);font-size:clamp(22px,3vw,28px);font-weight:700;color:var(--text-1);letter-spacing:-0.5px}
+.ss-val .hl{color:var(--accent)}
+.ss-label{font-size:11px;color:var(--text-4);margin-top:4px;line-height:1.3}
+.content{max-width:var(--max);margin:0 auto;padding:0 2rem 4rem}
+.section-num{font-family:var(--heading);font-size:11px;text-transform:uppercase;letter-spacing:2.5px;color:var(--accent);font-weight:600;margin-bottom:6px}
+.content h2{font-family:var(--heading);font-size:22px;font-weight:700;color:var(--text-1);letter-spacing:-0.5px;margin-bottom:14px;line-height:1.2}
+.content h3{font-family:var(--heading);font-size:16px;font-weight:600;color:var(--text-2);margin:1.5rem 0 8px;letter-spacing:-0.2px}
+.content p{font-size:14.5px;color:var(--text-3);line-height:1.7;margin-bottom:14px}
+.content p strong{color:var(--text-2);font-weight:600}
+.content-section{margin-bottom:3rem;padding-bottom:3rem;border-bottom:1px solid var(--border)}
+.content-section:last-child{border-bottom:none}
+.callout{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:1.25rem 1.5rem;margin:1.5rem 0;font-size:13.5px;color:var(--text-3);line-height:1.6}
+.callout strong{color:var(--text-2)}
+.callout.verify{border-left-color:var(--accent-soft)}
+.callout.verify::before{content:'[Verify] ';color:var(--accent-soft);font-weight:600;font-family:var(--heading);font-size:11px;letter-spacing:1px;text-transform:uppercase}
+.inline-tags{display:flex;gap:5px;flex-wrap:wrap;margin:12px 0}
+.itag{padding:3px 10px;border-radius:5px;font-size:11px;font-weight:500;color:var(--accent);background:var(--accent-glow);border:1px solid rgba(139,92,246,0.12)}
+.constraint-list{margin:12px 0 16px;padding-left:0;list-style:none}
+.constraint-list li{position:relative;padding:6px 0 6px 20px;font-size:13.5px;color:var(--text-3);line-height:1.6}
+.constraint-list li::before{content:'';position:absolute;left:0;top:13px;width:8px;height:8px;border-radius:2px;background:var(--accent);opacity:0.5}
+.case-footer{max-width:var(--max);margin:0 auto;padding:2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.case-footer a{font-size:13px;color:var(--text-4);text-decoration:none;transition:color 0.2s}
+.case-footer a:hover{color:var(--accent)}
+@media(max-width:768px){
+  .case-hero,.content{padding-left:1.25rem;padding-right:1.25rem}
+  .stats-strip{grid-template-columns:1fr}
+  .meta-bar{gap:1rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Sri Raksha<span>.</span></a>
+    <a href="index.html#work" class="nav-back">&larr; Back to portfolio</a>
+  </div>
+</nav>
+
+<section class="case-hero">
+  <div class="reveal">
+    <div class="case-tag">Case Study 02 &mdash; Diligent Corporation</div>
+    <h1>Web Customisation Automation Engine</h1>
+    <p class="subtitle">Identified a recurring per-client customisation bottleneck from frontline operations, built the business case, authored the PRD, and shipped a working automation tool within a single quarter. Adopted immediately as the team's standard workflow.</p>
+  </div>
+
+  <div class="meta-bar reveal">
+    <div class="meta-item">
+      <div class="meta-label">Role</div>
+      <div class="meta-val">Initiator &amp; Product Owner</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Timeline</div>
+      <div class="meta-val">2025 &middot; Shipped in 1 quarter</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Status</div>
+      <div class="meta-val">Live &amp; in daily production use</div>
+    </div>
+  </div>
+
+  <div class="stats-strip reveal">
+    <div class="ss-item">
+      <div class="ss-val"><span class="hl">72</span>%</div>
+      <div class="ss-label">Customisation time reduced</div>
+    </div>
+    <div class="ss-item">
+      <div class="ss-val"><span class="hl">1</span> Qtr</div>
+      <div class="ss-label">Concept to production</div>
+    </div>
+    <div class="ss-item">
+      <div class="ss-val">Daily</div>
+      <div class="ss-label">Active production use</div>
+    </div>
+  </div>
+</section>
+
+<div class="content">
+
+  <!-- 1. Context & Problem Space -->
+  <div class="content-section reveal">
+    <div class="section-num">Part 1 of 5</div>
+    <h2>Context &amp; Problem Space</h2>
+
+    <h3>The business context</h3>
+    <p>Diligent's governance platform serves clients with varying branding, layout, and configuration requirements. Before each client goes live, the implementation team applies a set of web customisations — visual themes, layout configurations, and display settings — to match the client's specifications.</p>
+
+    <h3>The bottleneck</h3>
+    <p>This customisation process was manual and repetitive. For every new client onboarding, an analyst would step through the same configuration workflow — applying settings one by one, verifying outputs, and documenting changes. The process repeated with minor variations across every client.</p>
+
+    <div class="callout verify">
+      What was the average time per client customisation before automation? How many clients were being onboarded per month? What specific steps were most time-consuming?
+    </div>
+
+    <h3>Target users</h3>
+    <p><strong>Primary:</strong> Implementation and Customer Success teams in Bengaluru who configure per-client customisations before go-live.</p>
+
+    <h3>Baseline friction</h3>
+    <ul class="constraint-list">
+      <li>Repetitive manual steps for each new client onboarding</li>
+      <li>Analyst time consumed by configuration work instead of client-facing activities</li>
+      <li>Risk of inconsistency — manual application of settings varied by analyst</li>
+      <li>No standardised workflow documentation for the customisation process</li>
+    </ul>
+  </div>
+
+  <!-- 2. Discovery & Technical Constraints -->
+  <div class="content-section reveal">
+    <div class="section-num">Part 2 of 5</div>
+    <h2>Discovery &amp; Technical Constraints</h2>
+
+    <h3>How the problem was surfaced</h3>
+    <p>This wasn't a top-down initiative. The bottleneck was identified through direct frontline experience — performing the customisation work repeatedly, recognising the pattern, and quantifying the time sink before proposing a solution.</p>
+
+    <div class="callout verify">
+      What was the technical stack of the customisation workflow? Was it browser-based configuration, API calls, database updates, or a combination? What tools or platforms were involved?
+    </div>
+
+    <h3>Key constraints</h3>
+    <ul class="constraint-list">
+      <li>Solution needed to integrate with the existing customisation workflow — not replace it entirely</li>
+      <li>Had to work within current tooling and permissions available to the operations team</li>
+      <li>Needed leadership buy-in before any development could start</li>
+      <li>One-quarter delivery window — had to ship fast to prove value</li>
+    </ul>
+  </div>
+
+  <!-- 3. Solution & Product Ownership -->
+  <div class="content-section reveal">
+    <div class="section-num">Part 3 of 5</div>
+    <h2>Solution &amp; Product Ownership</h2>
+
+    <h3>Business case and PRD</h3>
+    <p>Built the business case quantifying time spent on manual customisation across client onboardings. Authored the PRD with requirements, acceptance criteria, and a clear delivery timeline. Secured leadership sign-off before writing any code.</p>
+
+    <h3>What was built</h3>
+    <p>An automation tool that handles per-client web customisation — reducing manual steps to a streamlined, repeatable process. The tool was designed to fit directly into the team's existing workflow so adoption was immediate rather than requiring process change.</p>
+
+    <div class="callout verify">
+      What specific customisation steps did the tool automate? What was the architecture — scripts, browser automation, API integration? What inputs does it take and what outputs does it produce?
+    </div>
+
+    <div class="inline-tags">
+      <span class="itag">PRD authorship</span>
+      <span class="itag">Business case</span>
+      <span class="itag">Process automation</span>
+    </div>
+  </div>
+
+  <!-- 4. Execution & Cross-Functional Leadership -->
+  <div class="content-section reveal">
+    <div class="section-num">Part 4 of 5</div>
+    <h2>Execution &amp; Cross-Functional Leadership</h2>
+
+    <h3>Delivery timeline</h3>
+    <p>Shipped end-to-end within a single quarter — from business case presentation to working tool in production. The compressed timeline was deliberate: shipping fast proved the concept's value and earned continued investment.</p>
+
+    <h3>Stakeholder alignment</h3>
+    <p>Secured leadership sign-off on the business case before starting development. This meant the initiative had organisational backing from day one — not a side project that needed retroactive approval.</p>
+
+    <h3>Adoption</h3>
+    <p>The tool was adopted immediately into the team's standard workflow. No formal training rollout was needed because it was designed to mirror the existing process — just faster and more consistent.</p>
+
+    <div class="callout verify">
+      Who were the key stakeholders involved in sign-off? Was there any resistance or iteration during the approval process? How many team members use the tool daily?
+    </div>
+  </div>
+
+  <!-- 5. Outcomes & Key Takeaways -->
+  <div class="content-section reveal">
+    <div class="section-num">Part 5 of 5</div>
+    <h2>Outcomes &amp; Key Takeaways</h2>
+
+    <h3>Verified impact</h3>
+    <p><strong>72% reduction in per-client customisation time.</strong> The tool remains in active daily production use since 2025 — it wasn't a proof-of-concept that sat on a shelf.</p>
+
+    <h3>Operational efficiency</h3>
+    <p><strong>Consistency at scale.</strong> Every client now receives the same quality of customisation output regardless of which analyst runs the process. The tool eliminated analyst-dependent variation.</p>
+
+    <p><strong>Bandwidth reclaimed.</strong> Time freed from manual customisation is now spent on client-facing work — onboarding support, migration coordination, and platform adoption.</p>
+
+    <h3>Key takeaways</h3>
+
+    <p><strong>1. Frontline teams see the automation opportunities first.</strong> This initiative came from doing the work — not from a strategic planning session. The people closest to the repetitive process are best positioned to identify what can be automated.</p>
+
+    <p><strong>2. A business case gets further than a prototype.</strong> For the BoardDocs tool, I built first and earned scope after. For this tool, I led with the business case and secured buy-in before writing code. Both approaches work — the right one depends on how much organisational investment is required upfront.</p>
+
+    <p><strong>3. Design for zero friction adoption.</strong> The tool mirrors the existing workflow. No new processes, no training sessions, no "change management." Adoption happened on day one because the tool felt like a faster version of what the team was already doing.</p>
+  </div>
+
+</div>
+
+<div class="case-footer">
+  <a href="case-boarddocs.html">&larr; BoardDocs Audit Platform</a>
+  <a href="case-roamriot.html">Next: RoamRiot &rarr;</a>
+</div>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

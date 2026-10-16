@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RoamRiot — Sri Raksha BSR</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0c;--surface:#111114;--card:#16161a;--card-hover:#1a1a1f;
+  --border:#222228;--border-hover:#333340;
+  --text-1:#f0f0f2;--text-2:#d4d4d8;--text-3:#9e9ea8;--text-4:#6e6e7a;--text-5:#44444f;
+  --accent:#8b5cf6;--accent-soft:#a78bfa;--accent-deep:#7c3aed;--accent-glow:rgba(139,92,246,0.06);
+  --heading:'Space Grotesk',system-ui,sans-serif;
+  --body:'DM Sans',system-ui,sans-serif;
+  --ease:cubic-bezier(0.22,0.61,0.36,1);
+  --max:760px;
+}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{font-family:var(--body);background:var(--bg);color:var(--text-3);line-height:1.7;-webkit-font-smoothing:antialiased;font-size:15px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+::selection{background:var(--accent);color:white}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;opacity:0.025;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");z-index:9999}
+.reveal{opacity:0;transform:translateY(14px);transition:opacity 0.5s var(--ease),transform 0.5s var(--ease)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,12,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:900px;margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:var(--heading);font-weight:600;font-size:15px;color:var(--text-1);letter-spacing:-0.5px;text-decoration:none}
+.nav-logo span{color:var(--accent)}
+.nav-back{font-size:13px;color:var(--text-4);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color 0.2s}
+.nav-back:hover{color:var(--text-2);text-decoration:none}
+.case-hero{max-width:var(--max);margin:0 auto;padding:7rem 2rem 3rem}
+.case-tag{font-family:var(--heading);font-size:11px;text-transform:uppercase;letter-spacing:2.5px;color:var(--accent);font-weight:600;margin-bottom:10px}
+.case-hero h1{font-family:var(--heading);font-size:clamp(28px,4vw,38px);font-weight:700;color:var(--text-1);line-height:1.12;letter-spacing:-1px;margin-bottom:14px}
+.case-hero .subtitle{font-size:16px;color:var(--text-4);line-height:1.65;margin-bottom:2rem}
+.meta-bar{display:flex;gap:2rem;flex-wrap:wrap;padding:1.25rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:3rem}
+.meta-item{}
+.meta-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text-5);font-weight:600;margin-bottom:2px}
+.meta-val{font-size:13.5px;color:var(--text-2);font-weight:500}
+.status-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.2);color:#fbbf24;padding:4px 12px;border-radius:6px;font-size:11px;font-weight:600;font-family:var(--heading);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:2rem}
+.content{max-width:var(--max);margin:0 auto;padding:0 2rem 4rem}
+.section-num{font-family:var(--heading);font-size:11px;text-transform:uppercase;letter-spacing:2.5px;color:var(--accent);font-weight:600;margin-bottom:6px}
+.content h2{font-family:var(--heading);font-size:22px;font-weight:700;color:var(--text-1);letter-spacing:-0.5px;margin-bottom:14px;line-height:1.2}
+.content h3{font-family:var(--heading);font-size:16px;font-weight:600;color:var(--text-2);margin:1.5rem 0 8px;letter-spacing:-0.2px}
+.content p{font-size:14.5px;color:var(--text-3);line-height:1.7;margin-bottom:14px}
+.content p strong{color:var(--text-2);font-weight:600}
+.content-section{margin-bottom:3rem;padding-bottom:3rem;border-bottom:1px solid var(--border)}
+.content-section:last-child{border-bottom:none}
+.callout{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:1.25rem 1.5rem;margin:1.5rem 0;font-size:13.5px;color:var(--text-3);line-height:1.6}
+.callout strong{color:var(--text-2)}
+.callout.verify{border-left-color:var(--accent-soft)}
+.callout.verify::before{content:'[Verify] ';color:var(--accent-soft);font-weight:600;font-family:var(--heading);font-size:11px;letter-spacing:1px;text-transform:uppercase}
+.inline-tags{display:flex;gap:5px;flex-wrap:wrap;margin:12px 0}
+.itag{padding:3px 10px;border-radius:5px;font-size:11px;font-weight:500;color:var(--accent);background:var(--accent-glow);border:1px solid rgba(139,92,246,0.12)}
+.constraint-list{margin:12px 0 16px;padding-left:0;list-style:none}
+.constraint-list li{position:relative;padding:6px 0 6px 20px;font-size:13.5px;color:var(--text-3);line-height:1.6}
+.constraint-list li::before{content:'';position:absolute;left:0;top:13px;width:8px;height:8px;border-radius:2px;background:var(--accent);opacity:0.5}
+.case-footer{max-width:var(--max);margin:0 auto;padding:2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.case-footer a{font-size:13px;color:var(--text-4);text-decoration:none;transition:color 0.2s}
+.case-footer a:hover{color:var(--accent)}
+@media(max-width:768px){
+  .case-hero,.content{padding-left:1.25rem;padding-right:1.25rem}
+  .meta-bar{gap:1rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Sri Raksha<span>.</span></a>
+    <a href="index.html#work" class="nav-back">&larr; Back to portfolio</a>
+  </div>
+</nav>
+
+<section class="case-hero">
+  <div class="reveal">
+    <div class="case-tag">Case Study 03 &mdash; Self-Initiated</div>
+    <h1>RoamRiot &mdash; Travel Planning Platform</h1>
+    <p class="subtitle">A 0→1 consumer product solving multi-app fragmentation in travel planning. Full PM ownership from user research through build — demonstrating end-to-end product lifecycle management outside the enterprise context.</p>
+    <div class="status-badge">Pre-launch</div>
+  </div>
+
+  <div class="meta-bar reveal">
+    <div class="meta-item">
+      <div class="meta-label">Role</div>
+      <div class="meta-val">Founder &amp; Product Manager</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Timeline</div>
+      <div class="meta-val">Conceptualised 2025 &middot; Built 2026</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Status</div>
+      <div class="meta-val">Pre-launch</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Type</div>
+      <div class="meta-val">Consumer &middot; 0&rarr;1</div>
+    </div>
+  </div>
+</section>
+
+<div class="content">
+
+  <!-- 1. Context & Problem Space -->
+  <div class="content-section reveal">
+    <div class="section-num">Part 1 of 5</div>
+    <h2>Context &amp; Problem Space</h2>
+
+    <h3>The problem</h3>
+    <p>Travel planning is fragmented across multiple apps and platforms. A single trip touches Google Flights for airfare, Booking.com or Airbnb for accommodation, Google Maps for itinerary routing, TripAdvisor for reviews, spreadsheets or notes apps for budgeting, and group chats for coordination. There is no single surface that holds the full picture of a trip.</p>
+
+    <h3>Who this affects</h3>
+    <p><strong>Primary users:</strong> Independent travellers and small groups (2–6 people) planning multi-day trips who currently juggle 4–6 apps to coordinate a single trip.</p>
+
+    <div class="callout verify">
+      What specific user segments were identified during research? Solo travellers, couples, friend groups, family trips? What was the research method — surveys, interviews, personal observation?
+    </div>
+
+    <h3>Why existing solutions fall short</h3>
+    <ul class="constraint-list">
+      <li>No platform consolidates flights, stays, itineraries, budgets, and group coordination in one place</li>
+      <li>Existing travel planning apps focus on discovery (where to go) but not execution (how to plan and book)</li>
+      <li>Group trip planning relies on fragmented chat threads and shared documents</li>
+      <li>Budget tracking requires a separate spreadsheet — no travel app handles this natively</li>
+    </ul>
+  </div>
+
+  <!-- 2. Discovery & Technical Constraints -->
+  <div class="content-section reveal">
+    <div class="section-num">Part 2 of 5</div>
+    <h2>Discovery &amp; Technical Constraints</h2>
+
+    <h3>User research</h3>
+    <p>Conducted user research to validate the fragmentation hypothesis and identify which pain points were severe enough to drive adoption of a new platform.</p>
+
+    <div class="callout verify">
+      How many users were interviewed or surveyed? What were the top 3 pain points ranked by severity? What existing tools were users most attached to (i.e. hardest to replace)?
+    </div>
+
+    <h3>Competitive analysis</h3>
+    <p>Mapped the competitive landscape across travel planning apps, identifying gaps in feature coverage. Key finding: most competitors optimised for the inspiration/discovery phase — "where should I go?" — rather than the execution/planning phase — "how do I organise and book this trip?"</p>
+
+    <div class="callout verify">
+      Which competitors were analysed? (TripIt, Wanderlog, Sygic Travel, Google Travel, etc.) What specific gaps in the market did the analysis reveal?
+    </div>
+
+    <h3>Technical constraints</h3>
+    <ul class="constraint-list">
+      <li>Solo founder — PM, design, and development done by one person</li>
+      <li>No external funding — built within personal resource constraints</li>
+      <li>Must integrate with existing booking platforms (aggregation, not replacement)</li>
+      <li>Group features require real-time collaboration architecture</li>
+    </ul>
+  </div>
+
+  <!-- 3. Solution & Product Ownership -->
+  <div class="content-section reveal">
+    <div class="section-num">Part 3 of 5</div>
+    <h2>Solution &amp; Product Ownership</h2>
+
+    <h3>Product vision</h3>
+    <p>An all-in-one travel planning platform that consolidates itinerary building, accommodation search, budget tracking, and group coordination into a single surface. The goal: a traveller should never need to leave RoamRiot to plan a complete trip.</p>
+
+    <h3>PM ownership</h3>
+    <p>Full end-to-end product lifecycle ownership — from problem identification through delivery:</p>
+
+    <ul class="constraint-list">
+      <li><strong>User research &amp; personas:</strong> Defined target user segments and validated pain points</li>
+      <li><strong>PRD:</strong> Authored full product requirements document with feature specifications and acceptance criteria</li>
+      <li><strong>Roadmap:</strong> Prioritised features across phases using effort/impact framework</li>
+      <li><strong>Wireframes:</strong> Designed user flows and screen-level wireframes for core workflows</li>
+      <li><strong>Build:</strong> Hands-on development of the platform</li>
+    </ul>
+
+    <div class="callout verify">
+      What is the tech stack? What features are in the MVP vs. deferred to later phases? What was the feature prioritisation framework — RICE, MoSCoW, or custom?
+    </div>
+
+    <div class="inline-tags">
+      <span class="itag">0&rarr;1 product</span>
+      <span class="itag">User research</span>
+      <span class="itag">PRD</span>
+      <span class="itag">Wireframes</span>
+      <span class="itag">Roadmap</span>
+      <span class="itag">Consumer</span>
+    </div>
+  </div>
+
+  <!-- 4. Execution & Cross-Functional Leadership -->
+  <div class="content-section reveal">
+    <div class="section-num">Part 4 of 5</div>
+    <h2>Execution &amp; Cross-Functional Leadership</h2>
+
+    <h3>Solo execution model</h3>
+    <p>Unlike the Diligent projects where PM and development were distinct hats worn by one person within a larger team, RoamRiot is a solo venture. Every role — research, product, design, and engineering — is held by one person. This tests a different PM muscle: ruthless prioritisation when there's no team to delegate to.</p>
+
+    <h3>What this demonstrates</h3>
+    <p><strong>Full product lifecycle fluency.</strong> Moving from user research → PRD → wireframes → roadmap → build on a consumer product shows the complete PM toolkit — not just the subset used in an enterprise internal-tooling context.</p>
+
+    <p><strong>Consumer product thinking.</strong> The Diligent case studies showcase enterprise internal tooling with clear, measurable operational impact. RoamRiot demonstrates the ability to think about consumer UX, acquisition, retention, and product-market fit — a different set of PM skills.</p>
+
+    <div class="callout verify">
+      What was the development timeline? How was the build phased? Any beta users or early testers? What feedback loop was established?
+    </div>
+  </div>
+
+  <!-- 5. Outcomes & Key Takeaways -->
+  <div class="content-section reveal">
+    <div class="section-num">Part 5 of 5</div>
+    <h2>Outcomes &amp; Key Takeaways</h2>
+
+    <h3>Current status</h3>
+    <p><strong>Pre-launch.</strong> The product has been conceptualised (2025) and built (2026) but has not yet launched publicly. No usage metrics or adoption data are available.</p>
+
+    <div class="callout">
+      <strong>Why include a pre-launch project?</strong> The Diligent case studies demonstrate PM execution within an existing organisation — identifying problems, building tools, and shipping measurable outcomes. RoamRiot demonstrates the ability to conceive a product from scratch, conduct original user research, and own every stage of the product lifecycle independently. For PM hiring, the process matters as much as the outcome.
+    </div>
+
+    <h3>Key takeaways</h3>
+
+    <p><strong>1. Consumer PM requires a different discovery muscle.</strong> Enterprise internal tooling has a captive user base — the problem and the user are right in front of you. Consumer product requires going out and finding the user, validating the problem, and competing for attention against established alternatives.</p>
+
+    <p><strong>2. Solo execution forces prioritisation discipline.</strong> With no team to distribute work across, every feature decision is a direct trade-off against personal build capacity. This sharpens the "what do we cut?" instinct that matters in any PM role.</p>
+
+    <p><strong>3. End-to-end ownership builds conviction.</strong> Having touched every stage — from initial research interviews through wireframe iterations through code — creates a level of product intuition that doesn't come from managing stages you haven't personally executed.</p>
+  </div>
+
+</div>
+
+<div class="case-footer">
+  <a href="case-customisation.html">&larr; Web Customisation Engine</a>
+  <a href="index.html#work">Back to portfolio &rarr;</a>
+</div>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

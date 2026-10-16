@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BoardDocs Pre-Migration Audit Platform — Sri Raksha BSR</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0c;--surface:#111114;--card:#16161a;--card-hover:#1a1a1f;
+  --border:#222228;--border-hover:#333340;
+  --text-1:#f0f0f2;--text-2:#d4d4d8;--text-3:#9e9ea8;--text-4:#6e6e7a;--text-5:#44444f;
+  --accent:#8b5cf6;--accent-soft:#a78bfa;--accent-deep:#7c3aed;--accent-glow:rgba(139,92,246,0.06);
+  --green:#34d399;--orange:#f59e0b;--red:#ef4444;
+  --heading:'Space Grotesk',system-ui,sans-serif;
+  --body:'DM Sans',system-ui,sans-serif;
+  --ease:cubic-bezier(0.22,0.61,0.36,1);
+  --max:760px;
+}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{font-family:var(--body);background:var(--bg);color:var(--text-3);line-height:1.7;-webkit-font-smoothing:antialiased;font-size:15px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+::selection{background:var(--accent);color:white}
+
+/* Grain */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;opacity:0.025;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");z-index:9999}
+
+.reveal{opacity:0;transform:translateY(14px);transition:opacity 0.5s var(--ease),transform 0.5s var(--ease)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,12,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:900px;margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:var(--heading);font-weight:600;font-size:15px;color:var(--text-1);letter-spacing:-0.5px;text-decoration:none}
+.nav-logo span{color:var(--accent)}
+.nav-back{font-size:13px;color:var(--text-4);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color 0.2s}
+.nav-back:hover{color:var(--text-2);text-decoration:none}
+
+/* Hero */
+.case-hero{max-width:var(--max);margin:0 auto;padding:7rem 2rem 3rem}
+.case-tag{font-family:var(--heading);font-size:11px;text-transform:uppercase;letter-spacing:2.5px;color:var(--accent);font-weight:600;margin-bottom:10px}
+.case-hero h1{font-family:var(--heading);font-size:clamp(28px,4vw,38px);font-weight:700;color:var(--text-1);line-height:1.12;letter-spacing:-1px;margin-bottom:14px}
+.case-hero .subtitle{font-size:16px;color:var(--text-4);line-height:1.65;margin-bottom:2rem}
+
+/* Meta bar */
+.meta-bar{display:flex;gap:2rem;flex-wrap:wrap;padding:1.25rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:3rem}
+.meta-item{}
+.meta-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text-5);font-weight:600;margin-bottom:2px}
+.meta-val{font-size:13.5px;color:var(--text-2);font-weight:500}
+
+/* Stats strip */
+.stats-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-radius:12px;overflow:hidden;border:1px solid var(--border);margin-bottom:3rem}
+.ss-item{background:var(--card);padding:1.25rem 1rem;text-align:center}
+.ss-val{font-family:var(--heading);font-size:clamp(22px,3vw,28px);font-weight:700;color:var(--text-1);letter-spacing:-0.5px}
+.ss-val .hl{color:var(--accent)}
+.ss-label{font-size:11px;color:var(--text-4);margin-top:4px;line-height:1.3}
+
+/* Content */
+.content{max-width:var(--max);margin:0 auto;padding:0 2rem 4rem}
+.section-num{font-family:var(--heading);font-size:11px;text-transform:uppercase;letter-spacing:2.5px;color:var(--accent);font-weight:600;margin-bottom:6px}
+.content h2{font-family:var(--heading);font-size:22px;font-weight:700;color:var(--text-1);letter-spacing:-0.5px;margin-bottom:14px;line-height:1.2}
+.content h3{font-family:var(--heading);font-size:16px;font-weight:600;color:var(--text-2);margin:1.5rem 0 8px;letter-spacing:-0.2px}
+.content p{font-size:14.5px;color:var(--text-3);line-height:1.7;margin-bottom:14px}
+.content p strong{color:var(--text-2);font-weight:600}
+.content-section{margin-bottom:3rem;padding-bottom:3rem;border-bottom:1px solid var(--border)}
+.content-section:last-child{border-bottom:none}
+
+/* Callout */
+.callout{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:1.25rem 1.5rem;margin:1.5rem 0;font-size:13.5px;color:var(--text-3);line-height:1.6}
+.callout strong{color:var(--text-2)}
+
+/* Tags */
+.inline-tags{display:flex;gap:5px;flex-wrap:wrap;margin:12px 0}
+.itag{padding:3px 10px;border-radius:5px;font-size:11px;font-weight:500;color:var(--accent);background:var(--accent-glow);border:1px solid rgba(139,92,246,0.12)}
+
+/* Constraint list */
+.constraint-list{margin:12px 0 16px;padding-left:0;list-style:none}
+.constraint-list li{position:relative;padding:6px 0 6px 20px;font-size:13.5px;color:var(--text-3);line-height:1.6}
+.constraint-list li::before{content:'';position:absolute;left:0;top:13px;width:8px;height:8px;border-radius:2px;background:var(--accent);opacity:0.5}
+
+/* Area grid */
+.area-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+.area-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.area-card-name{font-family:var(--heading);font-size:13px;font-weight:600;color:var(--text-2);margin-bottom:4px}
+.area-card-desc{font-size:12px;color:var(--text-4);line-height:1.5}
+
+/* Footer */
+.case-footer{max-width:var(--max);margin:0 auto;padding:2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.case-footer a{font-size:13px;color:var(--text-4);text-decoration:none;transition:color 0.2s}
+.case-footer a:hover{color:var(--accent)}
+
+@media(max-width:768px){
+  .case-hero,.content{padding-left:1.25rem;padding-right:1.25rem}
+  .stats-strip{grid-template-columns:1fr 1fr}
+  .area-grid{grid-template-columns:1fr}
+  .meta-bar{gap:1rem}
+}
+@media(max-width:480px){
+  .stats-strip{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Sri Raksha<span>.</span></a>
+    <a href="index.html#work" class="nav-back">&larr; Back to portfolio</a>
+  </div>
+</nav>
+
+<section class="case-hero">
+  <div class="reveal">
+    <div class="case-tag">Case Study 01 &mdash; Diligent Corporation</div>
+    <h1>BoardDocs Pre-Migration Audit Platform</h1>
+    <p class="subtitle">An 8-area automation platform that validates BoardDocs governance data before migration — replacing 2 days of manual analyst work with a 6-hour unattended run. Authored the PRD, defined acceptance criteria across all audit areas, and built the tool as sole developer.</p>
+  </div>
+
+  <div class="meta-bar reveal">
+    <div class="meta-item">
+      <div class="meta-label">Role</div>
+      <div class="meta-val">Product Manager &amp; Sole Developer</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Timeline</div>
+      <div class="meta-val">Mar &ndash; Apr 2026 (8 weeks)</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Status</div>
+      <div class="meta-val">Go-live Q2 2026</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Team</div>
+      <div class="meta-val">8 people (cross-functional)</div>
+    </div>
+  </div>
+
+  <div class="stats-strip reveal">
+    <div class="ss-item">
+      <div class="ss-val"><span class="hl">75</span>%</div>
+      <div class="ss-label">Audit prep time eliminated</div>
+    </div>
+    <div class="ss-item">
+      <div class="ss-val"><span class="hl">5</span>x</div>
+      <div class="ss-label">Throughput per run</div>
+    </div>
+    <div class="ss-item">
+      <div class="ss-val">2d &rarr; <span class="hl">6h</span></div>
+      <div class="ss-label">Audit duration reduced</div>
+    </div>
+    <div class="ss-item">
+      <div class="ss-val"><span class="hl">0</span></div>
+      <div class="ss-label">Post-kickoff blockers</div>
+    </div>
+  </div>
+</section>
+
+<div class="content">
+
+  <!-- 1. Context & Problem Space -->
+  <div class="content-section reveal">
+    <div class="section-num">Part 1 of 5</div>
+    <h2>Context &amp; Problem Space</h2>
+
+    <h3>The business context</h3>
+    <p>Diligent's governance platform migrates clients from legacy systems — including BoardDocs — into a unified board management solution. Before any migration kicks off, analysts must audit the client's existing BoardDocs data to identify what migrates cleanly, what needs transformation, and what will break.</p>
+
+    <h3>The bottleneck</h3>
+    <p>This pre-migration audit was entirely manual. An analyst would log into BoardDocs, navigate through committees, meetings, video links, templates, policies, and library documents — clicking through hundreds of pages, copying counts into spreadsheets, and manually flagging issues like duplicate meetings or non-migratable video formats.</p>
+
+    <p><strong>A single audit took ~2 full working days per client.</strong> The analyst had to check 8 distinct data areas, cross-reference formats, detect duplicates by comparing titles and dates, and then compile a client-facing report in plain English — all before migration could even begin.</p>
+
+    <div class="callout">
+      <strong>The real cost:</strong> Every audit consumed analyst bandwidth that could have gone toward actual migration execution. With multiple clients in the pipeline, pre-migration validation was becoming the bottleneck for the entire migration schedule.
+    </div>
+
+    <h3>Target users</h3>
+    <p><strong>Primary:</strong> Migration analysts and Customer Success Specialists on the Bengaluru team who perform pre-migration audits before every client onboarding.</p>
+    <p><strong>Secondary:</strong> Client stakeholders who receive the audit report and need to resolve data issues before migration proceeds.</p>
+
+    <h3>Baseline friction</h3>
+    <ul class="constraint-list">
+      <li>~2 days of manual clicking per client audit</li>
+      <li>Human error in duplicate detection (same title + same date = duplicate)</li>
+      <li>No standardised report format — each analyst produced different outputs</li>
+      <li>Video link platform identification done by visual inspection (YouTube, Swagit, Vimeo, or non-migratable)</li>
+      <li>Client-facing report mixed internal technical language with action items</li>
+    </ul>
+  </div>
+
+  <!-- 2. Discovery & Technical Constraints -->
+  <div class="content-section reveal">
+    <div class="section-num">Part 2 of 5</div>
+    <h2>Discovery &amp; Technical Constraints</h2>
+
+    <h3>Technical landscape</h3>
+    <p>BoardDocs is a legacy governance platform with no public API. All data — committees, meetings, video embeds, policy attachments, templates, library documents — is rendered as DOM content in the browser. Extracting this data required browser automation, not API calls.</p>
+
+    <h3>Architecture decision: Selenium + BeautifulSoup on Flask</h3>
+    <p>The first week (Mar 9–15) was a dedicated <strong>trial week</strong> where the full team evaluated tool and technology options before any building started. The decision was locked by end of Mar 15: <strong>Python with Selenium for browser automation, BeautifulSoup for DOM parsing, and Flask as the local dashboard server.</strong></p>
+
+    <div class="callout">
+      <strong>Why not an API-based approach?</strong> BoardDocs has no documented API. All governance data is DOM-rendered, which means automated extraction requires actual browser sessions that navigate pages, wait for JavaScript rendering, and scrape structured content from HTML. This constraint made Selenium the only viable path.
+    </div>
+
+    <h3>Key technical constraints</h3>
+    <ul class="constraint-list">
+      <li><strong>DOM fragility:</strong> ~5% of audit failures trace back to DOM structure changes on the BoardDocs side — elements move, class names change, and pages re-render unpredictably</li>
+      <li><strong>Scale:</strong> Tool must handle 500+ meetings and 50+ committees per client without session timeouts or memory exhaustion</li>
+      <li><strong>Concurrency:</strong> Sequential scraping was too slow — needed parallel workers for committee-level audits</li>
+      <li><strong>Video platform detection:</strong> Must distinguish between YouTube, Swagit, Vimeo, and non-migratable formats by parsing embedded URLs and identifying platform-specific patterns</li>
+      <li><strong>Duplicate detection:</strong> Meetings with identical titles AND identical dates flagged as duplicates — requires cross-referencing across the full meeting set</li>
+      <li><strong>Client report isolation:</strong> The report must contain zero technical language — no mention of Selenium, crawlers, or scripts — only plain-English action items</li>
+    </ul>
+
+    <h3>Stakeholder trade-offs</h3>
+    <p>The team included 8 people across development, UI design, and project management. Area ownership was distributed — each person built and QA'd their own area with no separate QA role. This reduced handoff overhead but required tight coordination during integration.</p>
+
+    <p>The decision to run a full trial week before Sprint 1 meant the 8-week timeline effectively became 7 weeks of build time. This was a deliberate trade-off: <strong>one week spent evaluating options prevented mid-sprint pivots on tooling.</strong></p>
+  </div>
+
+  <!-- 3. Solution & Product Ownership -->
+  <div class="content-section reveal">
+    <div class="section-num">Part 3 of 5</div>
+    <h2>Solution &amp; Product Ownership</h2>
+
+    <h3>PRD scope and structure</h3>
+    <p>Authored the complete PRD (v3) covering all 8 audit areas with explicit acceptance criteria, dashboard specification, client report specification, sprint plan, and go-live approval checklist. Every area had defined ownership, QA responsibility, and measurable output expectations.</p>
+
+    <h3>The 8 audit areas</h3>
+    <div class="area-grid">
+      <div class="area-card">
+        <div class="area-card-name">Committees</div>
+        <div class="area-card-desc">Total count + Public/Private split. Both filtered counts always visible alongside total.</div>
+      </div>
+      <div class="area-card">
+        <div class="area-card-name">Meetings</div>
+        <div class="area-card-desc">Total count, Public/Private split, duplicate detection (same title + date = duplicate, flagged orange).</div>
+      </div>
+      <div class="area-card">
+        <div class="area-card-name">Video Links</div>
+        <div class="area-card-desc">Platform identification: YouTube, Swagit, Vimeo (extract ID/URL) or Non-Migratable (flagged red).</div>
+      </div>
+      <div class="area-card">
+        <div class="area-card-name">Templates</div>
+        <div class="area-card-desc">Single total count. No category breakdown, no archived/active split.</div>
+      </div>
+      <div class="area-card">
+        <div class="area-card-name">Policy Attachments</div>
+        <div class="area-card-desc">Scan all policies, list every file format present (PDF, DOCX, HTML, JPG, etc.).</div>
+      </div>
+      <div class="area-card">
+        <div class="area-card-name">Library</div>
+        <div class="area-card-desc">Single total document count. No category breakdown, no filters.</div>
+      </div>
+      <div class="area-card">
+        <div class="area-card-name">UI / Dashboard</div>
+        <div class="area-card-desc">Account name scraped from BD. Status colours: green (OK), orange (warning), red (non-migratable). All tables sortable &amp; filterable.</div>
+      </div>
+      <div class="area-card">
+        <div class="area-card-name">Client Report</div>
+        <div class="area-card-desc">Opens with bullet list of issues to fix. Detail breakdown per issue below. Downloadable as PDF + CSV. Zero technical language.</div>
+      </div>
+    </div>
+
+    <h3>Architecture: 3 concurrent workers</h3>
+    <p>The platform runs <strong>3 concurrent Selenium workers</strong> — each handling a separate committee's full audit in parallel. This was the key throughput multiplier: instead of sequentially crawling 50+ committees, the tool processes 3 at a time, reducing total scrape time from what would have been 12+ hours to approximately 6 hours.</p>
+
+    <h3>Client report design decisions</h3>
+    <p>The client report was designed as an <strong>action document, not a data summary</strong>. Page 1 opens with a plain-English bullet list of exactly what the client needs to fix. Below that, each issue gets a detailed breakdown so the client knows which specific records are affected.</p>
+
+    <p>What the report deliberately excludes: count summaries (those live on the internal dashboard only), technical language (no mention of Selenium, BeautifulSoup, crawlers), and internal team notes.</p>
+
+    <div class="inline-tags">
+      <span class="itag">Python</span>
+      <span class="itag">Selenium</span>
+      <span class="itag">BeautifulSoup</span>
+      <span class="itag">Flask</span>
+      <span class="itag">PDF generation</span>
+      <span class="itag">CSV export</span>
+      <span class="itag">Concurrent workers</span>
+    </div>
+  </div>
+
+  <!-- 4. Execution & Cross-Functional Leadership -->
+  <div class="content-section reveal">
+    <div class="section-num">Part 4 of 5</div>
+    <h2>Execution &amp; Cross-Functional Leadership</h2>
+
+    <h3>Sprint structure and PM cadence</h3>
+    <p>The project ran on a structured 8-week timeline: 1 trial week + 7 weeks across 3 sprints. As PM, I ran a weekly checkpoint cadence — Monday goal confirmation, Wednesday mid-sprint review, Friday risk assessment — alongside daily standups.</p>
+
+    <h3>Week-by-week execution</h3>
+    <p><strong>Trial week (Mar 9–15):</strong> Full team evaluated technology options. Decision locked on Selenium + Flask by end of week. No code written until the decision was final — a deliberate choice to prevent mid-sprint tooling pivots.</p>
+
+    <p><strong>Weeks 1–2 (Mar 16–29):</strong> All 8 area owners started building simultaneously. Confirmed BD access for every team member. Briefed UI designers on all screen requirements so frontend and backend work ran in parallel. Reviewed early proof-of-concept outputs from each area.</p>
+
+    <p><strong>Weeks 3–4 (Mar 30–Apr 12):</strong> Each person demoed their area progress. Validated outputs against acceptance criteria — specifically confirming duplicate meeting detection and video link platform identification were working correctly. Wireframes approved for all dashboard screens.</p>
+
+    <p><strong>Week 5 (Apr 13–19):</strong> Integration sprint — all individual areas merged into the unified platform. Confirmed account name scrape, dashboard rendering, and client report generation were working end-to-end.</p>
+
+    <p><strong>Weeks 6–7 (Apr 20–30):</strong> Full end-to-end review, UAT across all 8 areas, go-live checklist clearance. Zero critical bugs at UAT sign-off.</p>
+
+    <h3>Cross-functional coordination</h3>
+    <p>Managed alignment across <strong>8 people</strong> — developers building individual audit areas, UI designers handling wireframes and frontend, and a project manager running daily execution. Each person owned both build and QA for their area — no handoff to a separate QA team. This reduced communication overhead but required tight acceptance criteria upfront (which the PRD provided).</p>
+
+    <h3>Go-live approval process</h3>
+    <p>Go-live required co-approval from myself (Product Manager) and the Team Lead. UAT was conducted and signed off by the Project Manager before approval was sought. The go-live checklist covered every audit area with specific pass criteria — from correct Public/Private committee splits to zero technical language in the client report.</p>
+  </div>
+
+  <!-- 5. Outcomes & Key Takeaways -->
+  <div class="content-section reveal">
+    <div class="section-num">Part 5 of 5</div>
+    <h2>Outcomes &amp; Key Takeaways</h2>
+
+    <h3>Verified business impact</h3>
+    <p>All metrics below were presented to Executive Leadership and are ELT-verified.</p>
+
+    <div class="stats-strip">
+      <div class="ss-item">
+        <div class="ss-val"><span class="hl">75</span>%</div>
+        <div class="ss-label">Reduction in audit prep time</div>
+      </div>
+      <div class="ss-item">
+        <div class="ss-val"><span class="hl">5</span>x</div>
+        <div class="ss-label">Throughput increase per run</div>
+      </div>
+      <div class="ss-item">
+        <div class="ss-val">2d &rarr; <span class="hl">6h</span></div>
+        <div class="ss-label">Manual to automated</div>
+      </div>
+      <div class="ss-item">
+        <div class="ss-val"><span class="hl">0</span></div>
+        <div class="ss-label">Post-kickoff blockers</div>
+      </div>
+    </div>
+
+    <h3>Operational efficiency</h3>
+    <p><strong>Near-elimination of human error</strong> in pre-migration validation. Duplicate detection, video platform identification, and format scanning — all previously done by visual inspection — now run programmatically with consistent results across every audit.</p>
+
+    <p><strong>Standardised client reporting.</strong> Every client now receives the same structured, plain-English report format. No more analyst-dependent variations in output quality or completeness.</p>
+
+    <p><strong>Analyst bandwidth reclaimed.</strong> The hours freed up per audit are now redirectable to actual migration execution — the work that moves clients onto the platform, not the validation overhead that precedes it.</p>
+
+    <h3>Key takeaways</h3>
+
+    <p><strong>1. The trial week paid for itself.</strong> Spending a full week evaluating tooling options before any code was written prevented the most common failure mode in internal tooling projects: mid-sprint technology pivots. The decision to use Selenium + Flask was locked once and never revisited.</p>
+
+    <p><strong>2. DOM scraping is inherently fragile — design for it.</strong> ~5% of failures trace to BoardDocs DOM changes. This is a known and accepted constraint, not a bug. The architecture accounts for it with retry logic and error reporting that tells you exactly which element failed and why.</p>
+
+    <p><strong>3. Scope discipline matters more than feature count.</strong> The PRD deliberately excluded features the team suggested — category breakdowns for templates, compliance scoring for policies, active/archived splits. Every cut kept the tool focused on what migration analysts actually need before kickoff: what exists, what's broken, and what the client needs to fix.</p>
+
+    <p><strong>4. Shipping earns scope.</strong> This tool started as a personal automation to reduce my own audit workload. After demonstrating working output, leadership funded a team of 8 and a structured sprint plan. The initiative was earned through delivered outcomes, not a pitch deck.</p>
+
+    <div class="callout">
+      <strong>Next horizon:</strong> Diligent is transitioning from V1 to V2 of the governance platform (Budapest-built, API-driven architecture). The V2 migration creates an opportunity to rebuild the audit tool against APIs instead of DOM scraping — potentially eliminating the 5% DOM fragility entirely. A V2 Transition Readiness Questionnaire has been drafted to map migration paths across all 8 audit areas.
+    </div>
+  </div>
+
+</div>
+
+<div class="case-footer">
+  <a href="index.html#work">&larr; Back to portfolio</a>
+  <a href="case-customisation.html">Next: Web Customisation Engine &rarr;</a>
+</div>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

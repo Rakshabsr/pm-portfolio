@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sri Raksha BSR — Product Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0c;--surface:#111114;--card:#16161a;--card-hover:#1a1a1f;
+  --border:#222228;--border-hover:#333340;
+  --text-1:#f0f0f2;--text-2:#d4d4d8;--text-3:#9e9ea8;--text-4:#6e6e7a;--text-5:#44444f;
+  --accent:#8b5cf6;--accent-soft:#a78bfa;--accent-deep:#7c3aed;--accent-glow:rgba(139,92,246,0.06);--accent-glow-md:rgba(139,92,246,0.1);
+  --green:#34d399;
+  --heading:'Space Grotesk',system-ui,sans-serif;
+  --body:'DM Sans',system-ui,sans-serif;
+  --ease:cubic-bezier(0.22,0.61,0.36,1);
+  --max:1080px;
+}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{font-family:var(--body);background:var(--bg);color:var(--text-3);line-height:1.65;-webkit-font-smoothing:antialiased;font-size:15px}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--accent);color:white}
+
+/* Subtle grain overlay */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;opacity:0.025;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");z-index:9999}
+
+.reveal{opacity:0;transform:translateY(16px);transition:opacity 0.5s var(--ease),transform 0.5s var(--ease)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.delay-1{transition-delay:0.08s}.delay-2{transition-delay:0.16s}.delay-3{transition-delay:0.24s}
+
+/* ── Nav ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,12,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:border-color 0.3s}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:var(--heading);font-weight:600;font-size:15px;color:var(--text-1);letter-spacing:-0.5px}
+.nav-logo span{color:var(--accent)}
+.nav-links{display:flex;gap:1.75rem;align-items:center}
+.nav-links a{font-size:13px;color:var(--text-4);transition:color 0.2s;font-weight:400}
+.nav-links a:hover,.nav-links a.active{color:var(--text-2)}
+.nav-resume{display:inline-flex;align-items:center;gap:5px;font-size:13px;color:var(--text-3);border:1px solid var(--border);padding:5px 14px;border-radius:6px;transition:all 0.2s;font-weight:500}
+.nav-resume:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ── Hero ── */
+.hero{max-width:var(--max);margin:0 auto;padding:8.5rem 2rem 4rem;position:relative}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);padding:5px 14px;border-radius:100px;font-size:12px;color:var(--text-4);margin-bottom:2rem;font-weight:500}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero h1{font-family:var(--heading);font-size:clamp(34px,5vw,52px);font-weight:700;color:var(--text-1);line-height:1.08;letter-spacing:-1.5px;margin-bottom:1.25rem;max-width:680px}
+.hero h1 .accent{background:linear-gradient(135deg,var(--accent-soft),var(--accent-deep));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:16px;color:var(--text-4);max-width:560px;line-height:1.7;margin-bottom:2rem;font-weight:300}
+.hero-sub strong{color:var(--text-2);font-weight:500}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:3.5rem}
+.btn-primary{background:var(--accent);color:#fff;padding:10px 24px;border-radius:8px;font-size:13.5px;font-weight:600;font-family:var(--body);transition:all 0.2s;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.btn-primary:hover{background:var(--accent-deep);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--text-3);border:1px solid var(--border);padding:10px 24px;border-radius:8px;font-size:13.5px;font-weight:500;font-family:var(--body);transition:all 0.2s;cursor:pointer}
+.btn-ghost:hover{border-color:var(--text-4);color:var(--text-1)}
+
+/* Capability tags under hero */
+.hero-caps{display:flex;gap:2rem;flex-wrap:wrap;padding-top:2rem;border-top:1px solid var(--border)}
+.hero-cap{font-size:12px;color:var(--text-5);text-transform:uppercase;letter-spacing:1.5px;font-weight:500}
+.hero-cap::before{content:'';display:inline-block;width:6px;height:6px;border-radius:1px;background:var(--accent);margin-right:8px;vertical-align:middle;opacity:0.6}
+
+/* ── Stats ── */
+.stats-section{max-width:var(--max);margin:0 auto;padding:0 2rem 5rem}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-radius:14px;overflow:hidden;border:1px solid var(--border)}
+.stat-item{background:var(--card);padding:1.75rem 1.5rem;text-align:center}
+.stat-val{font-family:var(--heading);font-size:clamp(28px,3.5vw,36px);font-weight:700;color:var(--text-1);letter-spacing:-1px;line-height:1}
+.stat-val .hl{color:var(--accent)}
+.stat-label{font-size:12.5px;color:var(--text-4);margin-top:6px;line-height:1.4}
+.stat-src{font-size:10px;color:var(--text-5);text-transform:uppercase;letter-spacing:1.5px;margin-top:6px;font-weight:500}
+
+/* ── Sections ── */
+.section{max-width:var(--max);margin:0 auto;padding:5rem 2rem}
+.section-divider{border-top:1px solid var(--border)}
+.section-tag{font-family:var(--heading);font-size:11px;text-transform:uppercase;letter-spacing:2.5px;color:var(--accent);font-weight:600;margin-bottom:10px}
+.section-title{font-family:var(--heading);font-size:clamp(24px,3vw,32px);font-weight:700;color:var(--text-1);line-height:1.15;letter-spacing:-0.8px}
+.section-desc{font-size:14.5px;color:var(--text-4);margin-top:10px;max-width:520px;line-height:1.6}
+
+/* ── Case study cards ── */
+.cases-list{display:flex;flex-direction:column;gap:14px;margin-top:2.5rem}
+.case{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.75rem 2rem;transition:all 0.3s var(--ease);cursor:pointer;position:relative;overflow:hidden}
+.case::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--accent-soft),var(--accent-deep));opacity:0;transition:opacity 0.3s}
+.case:hover{border-color:var(--border-hover);background:var(--card-hover)}
+.case:hover::after{opacity:1}
+.case-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.case-label{font-size:11px;font-weight:600;color:var(--accent);letter-spacing:1px;font-family:var(--heading)}
+.case-org{font-size:11px;color:var(--text-5);text-transform:uppercase;letter-spacing:2px;font-weight:500}
+.case h3{font-family:var(--heading);font-size:18px;font-weight:600;color:var(--text-1);margin-bottom:8px;letter-spacing:-0.3px}
+.case-desc{font-size:13.5px;color:var(--text-4);line-height:1.6;max-width:680px;margin-bottom:14px}
+.case-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid var(--border)}
+.case-tags{display:flex;gap:5px;flex-wrap:wrap}
+.tag{padding:3px 10px;border-radius:5px;font-size:11px;font-weight:500;color:var(--accent);background:var(--accent-glow);border:1px solid rgba(139,92,246,0.12)}
+.case-stat{text-align:right;min-width:80px}
+.case-stat-val{font-family:var(--heading);font-size:24px;font-weight:700;color:var(--text-1);letter-spacing:-0.5px}
+.case-stat-label{font-size:10.5px;color:var(--text-5);font-weight:400}
+.case-arrow{font-size:12px;color:var(--text-5);transition:all 0.25s;display:flex;align-items:center;gap:3px;font-weight:500}
+.case:hover .case-arrow{color:var(--accent);transform:translateX(3px)}
+
+/* ── Experience ── */
+.exp-list{margin-top:2.5rem}
+.exp{display:grid;grid-template-columns:240px 1fr;gap:2.5rem;padding:2rem 0;border-bottom:1px solid var(--border)}
+.exp:first-child{padding-top:0}
+.exp:last-child{border-bottom:none}
+.exp-co{font-family:var(--heading);font-size:18px;font-weight:600;color:var(--text-1);letter-spacing:-0.3px}
+.exp-title{font-size:13.5px;color:var(--text-3);margin-top:3px}
+.exp-date{font-size:12.5px;color:var(--text-5);margin-top:3px}
+.exp-body p{font-size:13.5px;color:var(--text-4);line-height:1.7;margin-bottom:10px}
+.exp-chips{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap}
+.exp-chip{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 16px;min-width:120px}
+.exp-chip-val{font-family:var(--heading);font-size:20px;font-weight:700;color:var(--accent);letter-spacing:-0.5px}
+.exp-chip-label{font-size:11px;color:var(--text-4);margin-top:3px;line-height:1.3}
+
+/* ── Perspective ── */
+.persp-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:2.5rem}
+.persp{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;transition:all 0.3s var(--ease)}
+.persp:hover{border-color:var(--accent);background:var(--accent-glow)}
+.persp-n{font-family:var(--heading);font-size:24px;font-weight:700;color:var(--accent);opacity:0.35;line-height:1}
+.persp h3{font-family:var(--heading);font-size:15px;font-weight:600;color:var(--text-1);margin:10px 0 6px;letter-spacing:-0.2px}
+.persp p{font-size:13px;color:var(--text-4);line-height:1.6}
+
+/* ── About ── */
+.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:2rem;align-items:start}
+.about-layout h2{font-family:var(--heading);font-size:clamp(24px,3vw,30px);font-weight:700;color:var(--text-1);line-height:1.15;letter-spacing:-0.8px;margin-bottom:1.25rem}
+.about-layout h2 .accent{background:linear-gradient(135deg,var(--accent-soft),var(--accent-deep));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.about-layout p{font-size:13.5px;color:var(--text-4);line-height:1.7;margin-bottom:10px}
+.about-meta{margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border)}
+.about-meta-row{margin-bottom:1rem}
+.about-meta-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text-5);font-weight:600;margin-bottom:3px}
+.about-meta-val{font-size:14px;color:var(--text-2);font-weight:500}
+.about-meta-sub{font-size:12.5px;color:var(--text-4)}
+.skills-wrap{margin-top:0.5rem}
+.skills-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text-5);font-weight:600;margin-bottom:10px}
+.skills-grid{display:flex;gap:5px;flex-wrap:wrap}
+.skill{padding:4px 12px;border-radius:5px;font-size:11.5px;font-weight:500;background:var(--card);color:var(--text-3);border:1px solid var(--border);transition:all 0.2s}
+.skill:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ── Contact ── */
+.contact{max-width:var(--max);margin:0 auto;padding:5rem 2rem;text-align:center}
+.contact h2{font-family:var(--heading);font-size:clamp(28px,3.5vw,38px);font-weight:700;color:var(--text-1);letter-spacing:-1.2px;margin-bottom:10px}
+.contact h2 .accent{background:linear-gradient(135deg,var(--accent-soft),var(--accent-deep));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.contact-sub{font-size:14.5px;color:var(--text-4);margin-bottom:2.5rem;max-width:460px;margin-left:auto;margin-right:auto;line-height:1.6}
+.contact-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.c-link{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);padding:11px 22px;border-radius:10px;font-size:13.5px;color:var(--text-3);font-weight:500;transition:all 0.25s var(--ease);cursor:pointer}
+.c-link:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-glow)}
+.c-link svg{width:15px;height:15px;opacity:0.5;flex-shrink:0}
+.c-link:hover svg{opacity:0.9}
+
+/* ── Footer ── */
+footer{max-width:var(--max);margin:0 auto;padding:2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-copy{font-size:12px;color:var(--text-5)}
+.footer-links{display:flex;gap:1.25rem}
+.footer-links a{font-size:12px;color:var(--text-5);transition:color 0.2s}
+.footer-links a:hover{color:var(--text-3)}
+
+/* ── Responsive ── */
+@media(max-width:768px){
+  .nav-links a:not(.nav-resume){display:none}
+  .nav-inner{padding:0 1.25rem}
+  .hero{padding:7rem 1.25rem 3rem}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .stats-section,.section,.contact{padding-left:1.25rem;padding-right:1.25rem}
+  .exp{grid-template-columns:1fr;gap:1rem}
+  .persp-grid,.about-layout{grid-template-columns:1fr}
+  .hero-caps{gap:1rem}
+  footer{padding:2rem 1.25rem}
+}
+@media(max-width:480px){
+  .stats-grid{grid-template-columns:1fr}
+  .case-bottom{flex-direction:column;align-items:flex-start;gap:12px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">Sri Raksha<span>.</span></a>
+    <div class="nav-links">
+      <a href="#work" class="active">Work</a>
+      <a href="#experience">Experience</a>
+      <a href="#perspective">Approach</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a href="#" class="nav-resume">Resume &#8599;</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="reveal">
+    <div class="hero-badge"><span class="dot"></span>Open to PM roles &middot; Bengaluru</div>
+  </div>
+  <h1 class="reveal delay-1">I identify operational bottlenecks and <span class="accent">ship the tools that fix them.</span></h1>
+  <p class="hero-sub reveal delay-2">Product Manager with <strong>5+ years</strong> in technical operations and enterprise platforms. I write the PRD, build the prototype, secure leadership sign-off, and deliver — with <strong>72–75% reductions</strong> in manual overhead across data migration and customisation workflows.</p>
+  <div class="hero-btns reveal delay-3">
+    <a href="#work" class="btn-primary">View case studies &darr;</a>
+    <a href="#contact" class="btn-ghost">Get in touch</a>
+  </div>
+  <div class="hero-caps reveal delay-3">
+    <span class="hero-cap">PRD authorship &amp; roadmaps</span>
+    <span class="hero-cap">0&rarr;1 internal tooling</span>
+    <span class="hero-cap">Data migration &amp; QA</span>
+    <span class="hero-cap">Cross-functional delivery</span>
+  </div>
+</section>
+
+<!-- Stats -->
+<div class="stats-section reveal">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-val"><span class="hl">75</span>%</div>
+      <div class="stat-label">Audit prep time eliminated</div>
+      <div class="stat-src">ELT-verified &middot; Diligent</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val"><span class="hl">5</span>x</div>
+      <div class="stat-label">Throughput per audit run</div>
+      <div class="stat-src">Concurrent workers</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val"><span class="hl">72</span>%</div>
+      <div class="stat-label">Customisation time reduced</div>
+      <div class="stat-src">In daily production</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val"><span class="hl">0</span></div>
+      <div class="stat-label">Post-kickoff migration blockers</div>
+      <div class="stat-src">Pre-migration coverage</div>
+    </div>
+  </div>
+</div>
+
+<!-- Work -->
+<section class="section section-divider" id="work">
+  <div class="reveal">
+    <div class="section-tag">Selected Work</div>
+    <h2 class="section-title">Product impact, measured in hours reclaimed.</h2>
+    <p class="section-desc">Internal tooling, process automation, and a 0→1 consumer product — each scoped, built, and shipped with clear operational outcomes.</p>
+  </div>
+
+  <div class="cases-list">
+    <a href="case-boarddocs.html" class="case reveal" style="text-decoration:none;color:inherit">
+      <div class="case-top">
+        <span class="case-label">01</span>
+        <span class="case-org">Diligent Corporation</span>
+      </div>
+      <h3>BoardDocs Pre-Migration Audit Platform</h3>
+      <p class="case-desc">Identified a critical pre-migration bottleneck — analysts manually validating BoardDocs data across 8 audit areas for 2 days per client. Authored the PRD, defined acceptance criteria, and built the entire platform as sole developer. The tool scrapes and validates 500+ meetings across 50+ committees in a single 6-hour unattended run with 3 concurrent workers.</p>
+      <div class="case-bottom">
+        <div class="case-tags">
+          <span class="tag">PRD ownership</span>
+          <span class="tag">Python &middot; Selenium &middot; Flask</span>
+          <span class="tag">ELT sign-off</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:1.5rem">
+          <div class="case-stat">
+            <div class="case-stat-val">75%</div>
+            <div class="case-stat-label">Time saved per audit</div>
+          </div>
+          <span class="case-arrow">Read more &rarr;</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="case-customisation.html" class="case reveal" style="text-decoration:none;color:inherit">
+      <div class="case-top">
+        <span class="case-label">02</span>
+        <span class="case-org">Diligent Corporation</span>
+      </div>
+      <h3>Web Customisation Automation Engine</h3>
+      <p class="case-desc">Surfaced a recurring per-client customisation bottleneck from frontline operations. Built the business case, authored the PRD, secured leadership sign-off, and delivered a working automation tool within one quarter. Adopted immediately as the team's standard workflow — in daily production use since 2025.</p>
+      <div class="case-bottom">
+        <div class="case-tags">
+          <span class="tag">Process automation</span>
+          <span class="tag">Business case</span>
+          <span class="tag">Shipped in 1 quarter</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:1.5rem">
+          <div class="case-stat">
+            <div class="case-stat-val">72%</div>
+            <div class="case-stat-label">Time reduced</div>
+          </div>
+          <span class="case-arrow">Read more &rarr;</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="case-roamriot.html" class="case reveal" style="text-decoration:none;color:inherit">
+      <div class="case-top">
+        <span class="case-label">03</span>
+        <span class="case-org">Self-initiated</span>
+      </div>
+      <h3>RoamRiot — Travel Planning Platform</h3>
+      <p class="case-desc">0→1 consumer product solving multi-app fragmentation in travel planning. Full PM ownership end-to-end: user research, competitive analysis, PRD, feature prioritisation, roadmap, wireframes, and build. Currently pre-launch.</p>
+      <div class="case-bottom">
+        <div class="case-tags">
+          <span class="tag">0&rarr;1 product</span>
+          <span class="tag">User research &amp; personas</span>
+          <span class="tag">Consumer</span>
+        </div>
+        <span class="case-arrow">Read more &rarr;</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- Experience -->
+<section class="section section-divider" id="experience">
+  <div class="reveal">
+    <div class="section-tag">Experience</div>
+    <h2 class="section-title">Where the product work happened.</h2>
+  </div>
+
+  <div class="exp-list">
+    <div class="exp reveal">
+      <div>
+        <div class="exp-co">Diligent Corporation</div>
+        <div class="exp-title">Customer Success Specialist</div>
+        <div class="exp-date">2024 — present &middot; Bengaluru</div>
+      </div>
+      <div class="exp-body">
+        <p>First line of product experience ahead of clients and implementation teams — surfacing platform friction points directly to Product and Engineering to drive migration pipeline decisions.</p>
+        <p>Led end-to-end data migrations with rigorous QA across Product, Engineering, and Advisory. Authored 8+ product and migration documentation sets ensuring accuracy, compliance, and localisation across client groups.</p>
+        <p>Built two internal tools from scratch as sole developer and PM — a pre-migration audit platform and a web customisation engine — both shipped with PRDs, leadership approval, and measurable operational impact.</p>
+        <div class="exp-chips">
+          <div class="exp-chip">
+            <div class="exp-chip-val">75%</div>
+            <div class="exp-chip-label">Audit time saved</div>
+          </div>
+          <div class="exp-chip">
+            <div class="exp-chip-val">72%</div>
+            <div class="exp-chip-label">Customisation reduced</div>
+          </div>
+          <div class="exp-chip">
+            <div class="exp-chip-val">8+</div>
+            <div class="exp-chip-label">Product docs authored</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp reveal">
+      <div>
+        <div class="exp-co">Dell EMC Corporation</div>
+        <div class="exp-title">Senior Enterprise Support Engineer</div>
+        <div class="exp-date">2015 — 2019 &middot; Bengaluru</div>
+      </div>
+      <div class="exp-body">
+        <p>Owned Level 2 escalation cases — data unavailability, performance degradation, corruption — collaborating with Engineering via JIRA to drive product quality improvements across enterprise storage platforms.</p>
+        <p>Supervised vendor teams and managed full documentation lifecycle from requirements through multilingual delivery. Built the technical foundation in NAS, SAN, data recovery, and infrastructure architecture that drives my product thinking today.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Perspective -->
+<section class="section section-divider" id="perspective">
+  <div class="reveal">
+    <div class="section-tag">Product Approach</div>
+    <h2 class="section-title">How I think about building products.</h2>
+  </div>
+
+  <div class="persp-grid">
+    <div class="persp reveal">
+      <div class="persp-n">01</div>
+      <h3>Start from the operational pain</h3>
+      <p>I sit with the teams doing the work — what takes two days, what breaks under load, what nobody has bandwidth to fix. That's where the PRD starts.</p>
+    </div>
+    <div class="persp reveal">
+      <div class="persp-n">02</div>
+      <h3>Build the prototype, not just the spec</h3>
+      <p>When I can write the code, I do. When I can't, I go deep enough with engineering that the trade-offs are mine — not assumptions handed across a wall.</p>
+    </div>
+    <div class="persp reveal">
+      <div class="persp-n">03</div>
+      <h3>Measure what the team stopped doing</h3>
+      <p>The metric isn't features shipped. It's hours reclaimed, errors eliminated, manual processes that no longer need a person clicking through them.</p>
+    </div>
+    <div class="persp reveal">
+      <div class="persp-n">04</div>
+      <h3>Ship first, earn scope next</h3>
+      <p>The BoardDocs tool started as a personal automation. Leadership saw the results and funded the initiative. Scope follows outcomes, not slide decks.</p>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section class="section section-divider" id="about">
+  <div class="reveal">
+    <div class="section-tag">About</div>
+  </div>
+
+  <div class="about-layout reveal">
+    <div>
+      <h2>A PM who ships tools, not just <span class="accent">roadmaps.</span></h2>
+      <p>Product Manager with deep roots in technical execution — enterprise storage, data migrations, infrastructure architecture. At Diligent, I own the product experience for clients migrating to a governance platform and build the internal tools that make migration faster and more reliable.</p>
+      <p>My technical foundation — NAS, SAN, Kubernetes, AWS, shell scripting, data recovery — comes from four years at Dell EMC as a Senior Enterprise Support Engineer. I go deep with engineering on system architecture and data integrity, then translate that into product decisions the business can act on.</p>
+      <div class="about-meta">
+        <div class="about-meta-row">
+          <div class="about-meta-label">Education</div>
+          <div class="about-meta-val">MSc Postgraduate</div>
+          <div class="about-meta-sub">George Brown College, Toronto</div>
+        </div>
+        <div class="about-meta-row">
+          <div class="about-meta-label">Location</div>
+          <div class="about-meta-val">Bengaluru, India</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="skills-wrap">
+        <div class="skills-label">Technical fluency</div>
+        <div class="skills-grid">
+          <span class="skill">Python</span>
+          <span class="skill">Flask</span>
+          <span class="skill">Selenium</span>
+          <span class="skill">BeautifulSoup</span>
+          <span class="skill">AWS</span>
+          <span class="skill">GCP</span>
+          <span class="skill">Kubernetes</span>
+          <span class="skill">VMware</span>
+          <span class="skill">Terraform</span>
+          <span class="skill">CI/CD</span>
+          <span class="skill">Shell Scripting</span>
+          <span class="skill">Data Recovery</span>
+          <span class="skill">NAS / SAN</span>
+        </div>
+      </div>
+      <div class="skills-wrap" style="margin-top:1.5rem">
+        <div class="skills-label">Product &amp; process</div>
+        <div class="skills-grid">
+          <span class="skill">PRD authorship</span>
+          <span class="skill">Roadmap ownership</span>
+          <span class="skill">User research</span>
+          <span class="skill">JIRA / Confluence</span>
+          <span class="skill">Agile / Sprint planning</span>
+          <span class="skill">OKRs &amp; KPIs</span>
+          <span class="skill">Stakeholder management</span>
+          <span class="skill">Go-to-market</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="contact section-divider" id="contact">
+  <div class="reveal">
+    <h2>Let's build something<br><span class="accent">that ships.</span></h2>
+    <p class="contact-sub">Open to Product Manager, Technical PM, and Product Operations roles across B2B SaaS, enterprise platforms, and startups in Bengaluru.</p>
+    <div class="contact-row">
+      <a href="mailto:sriraksha908@gmail.com" class="c-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
+        sriraksha908@gmail.com
+      </a>
+      <a href="https://linkedin.com/in/sriraksha-bsr" target="_blank" class="c-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a href="#" class="c-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+        Download Resume
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-copy">&copy; 2026 Sri Raksha BSR</span>
+  <div class="footer-links">
+    <a href="#work">Work</a>
+    <a href="#experience">Experience</a>
+    <a href="https://linkedin.com/in/sriraksha-bsr" target="_blank">LinkedIn</a>
+    <a href="mailto:sriraksha908@gmail.com">Email</a>
+    <a href="#">Top &uarr;</a>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+const sections = document.querySelectorAll('section[id], .hero');
+window.addEventListener('scroll', () => {
+  document.querySelector('nav').style.borderBottomColor = window.scrollY > 40 ? 'var(--border-hover)' : 'var(--border)';
+  let current = 'work';
+  sections.forEach(s => {
+    if (window.scrollY >= (s.offsetTop || 0) - 180) current = s.id || 'work';
+  });
+  navLinks.forEach(link => {
+    const href = link.getAttribute('href');
+    if (href) link.classList.toggle('active', href === '#' + current);
+  });
+}, { passive: true });
+</script>
+
+</body>
+</html>
